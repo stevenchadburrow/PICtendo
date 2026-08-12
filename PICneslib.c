@@ -248,54 +248,6 @@ volatile unsigned short apu_period[16] = {
 	4, 8, 16, 32, 64, 96, 128, 160, 202, 254, 380, 508, 762, 1016, 2034, 4068
 };
 
-unsigned char nes_ram_save(char *filename)
-{
-	FILE *output = NULL;
-
-	output = fopen(filename, "wb");
-	if (!output) return 0;
- 
-	char buffer;
-	unsigned int bytes;
-	
-	for (unsigned int i=0; i<8192; i++)
-	{
-		buffer = prg_ram[i];
-			
-		bytes = fprintf(output, "%c", buffer);
-
-		if (bytes == 0) break;
-	}
-
-	fclose(output);
-	
-	return 1;
-}
-
-unsigned char nes_ram_load(char *filename)
-{
-	FILE *input = NULL;
-
-	input = fopen(filename, "rb");
-	if (!input) return 0;
- 
-	char buffer;
-	unsigned int bytes;
-	
-	for (unsigned int i=0; i<8192; i++)
-	{
-		bytes = fscanf(input, "%c", &buffer);
-
-		if (bytes == 0) break;
-
-		prg_ram[i] = buffer;
-	}
-
-	fclose(input);
-	
-	return 1;
-}
-
 
 void nes_short_save(FILE *file, unsigned short val)
 {
